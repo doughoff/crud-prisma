@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@my-mono-repo/db": ["packages/db/src"],
+      "@my-mono-repo/server": ["packages/server/src"],
+      "@my-mono-repo/client": ["packages/client/src"]
+    }
+  }
+}

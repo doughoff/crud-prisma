@@ -1,0 +1,65 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Example {
+  id     Int        @id @default(autoincrement())
+  status statusEnum
+}
+
+model User {
+  id      Int       @id @default(autoincrement())
+  name    String?
+  posts   Post[]
+  Comment Comment[]
+}
+
+model Author {
+  id    Int     @id @default(autoincrement())
+  name  String?
+  posts Post[]
+}
+
+model Tag {
+  id       Int        @id @default(autoincrement())
+  name     String?
+  PostTags PostTags[]
+}
+
+model Post {
+  id       Int        @id @default(autoincrement())
+  title    String
+  author   Author?    @relation(fields: [authorId], references: [id])
+  authorId Int?
+  Comment  Comment[]
+  PostTags PostTags[]
+  User     User?      @relation(fields: [userId], references: [id])
+  userId   Int?
+}
+
+model PostTags {
+  id     Int   @id @default(autoincrement())
+  post   Post? @relation(fields: [postId], references: [id])
+  postId Int?
+  tag    Tag?  @relation(fields: [tagId], references: [id])
+  tagId  Int?
+}
+
+model Comment {
+  id     Int    @id @default(autoincrement())
+  text   String
+  post   Post?  @relation(fields: [postId], references: [id])
+  postId Int?
+  userId Int?
+  User   User?  @relation(fields: [userId], references: [id])
+}
+
+enum statusEnum {
+  ok
+  error
+}
